@@ -49,7 +49,7 @@ import org.openide.util.NbBundle;
     "MSG_INPUT_TEXT=Enter command line arguments:",
     "# {0} - Project name",
     "# {1} - Command",
-    "MSG_INPUT_TITLE={1}{0} with Arguments"
+    "MSG_INPUT_TITLE={1}{0} with Arguments..."
 })
 public abstract class CommandHandler {
     private final static String ARGS_PROPERTY = "args";

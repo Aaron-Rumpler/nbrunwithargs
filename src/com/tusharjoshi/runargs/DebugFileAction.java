@@ -45,7 +45,7 @@ import org.openide.util.NbBundle.Messages;
     @ActionReference(path = "Loaders/text/x-java/Actions", position = 1101),
     @ActionReference(path = "Editors/text/x-java/Popup", position = 1761)
 })
-@Messages("CTL_DebugFileAction=Debug File with Arguments")
+@Messages("CTL_DebugFileAction=Debug File with Arguments...")
 public final class DebugFileAction implements ActionListener {
     
     private final DataObject dataObject;

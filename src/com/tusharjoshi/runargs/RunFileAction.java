@@ -45,7 +45,7 @@ import org.openide.util.NbBundle.Messages;
     @ActionReference(path = "Loaders/text/x-java/Actions", position = 1001),
     @ActionReference(path = "Editors/text/x-java/Popup", position = 1721)
 })
-@Messages("CTL_RunFileAction=Run File with Arguments")
+@Messages("CTL_RunFileAction=Run File with Arguments...")
 public final class RunFileAction implements ActionListener {
     
     private final DataObject dataObject;
