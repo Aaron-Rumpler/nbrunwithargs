@@ -52,7 +52,7 @@ import org.openide.util.Utilities;
     @ActionReference(path = "Projects/org-netbeans-modules-maven/Actions", position = 1001),
     @ActionReference(path = "Projects/org-netbeans-modules-gradle/Actions", position = 1001),
     @ActionReference(path = "ProjectsTabActions", position = 1201),
-    @ActionReference(path = "Shortcuts", name = "D-S-D")
+    @ActionReference(path = "Shortcuts", name = "D-A-F5")
 })
 @NbBundle.Messages({
     "CTL_DebugProjectAction=Debug Project with Arguments..."})
@@ -61,7 +61,7 @@ implements ContextAwareAction {
 
     @Override
     public Action createContextAwareInstance(Lookup lkp) {
-        return new DebugProjectAction(lkp, Constants.COMMAND_DEBUG_NAME, "D-S-D");
+        return new DebugProjectAction(lkp, Constants.COMMAND_DEBUG_NAME, "D-A-F5");
     }
     
     public DebugProjectAction(final Lookup lkp, String commandName, String accKey) {
@@ -69,7 +69,7 @@ implements ContextAwareAction {
     }
     
     public DebugProjectAction() {
-        super(Utilities.actionsGlobalContext(), Constants.COMMAND_DEBUG_NAME, "D-S-D");
+        super(Utilities.actionsGlobalContext(), Constants.COMMAND_DEBUG_NAME, "D-A-F5");
     }
 
     @Override

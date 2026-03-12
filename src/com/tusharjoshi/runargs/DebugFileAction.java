@@ -43,7 +43,8 @@ import org.openide.util.NbBundle.Messages;
 @ActionReferences({
     @ActionReference(path = "Menu/RunProject", position = 234),
     @ActionReference(path = "Loaders/text/x-java/Actions", position = 1101),
-    @ActionReference(path = "Editors/text/x-java/Popup", position = 1761)
+    @ActionReference(path = "Editors/text/x-java/Popup", position = 1761),
+    @ActionReference(path = "Shortcuts", name = "A-S-F5")
 })
 @Messages("CTL_DebugFileAction=Debug File with Arguments...")
 public final class DebugFileAction implements ActionListener {
