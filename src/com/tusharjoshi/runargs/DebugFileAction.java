@@ -28,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.loaders.DataObject;
 import org.openide.util.NbBundle.Messages;
@@ -39,7 +40,11 @@ import org.openide.util.NbBundle.Messages;
 @ActionRegistration(
         displayName = "#CTL_DebugFileAction"
 )
-@ActionReference(path = "Loaders/text/x-java/Actions", position = 920)
+@ActionReferences({
+    @ActionReference(path = "Menu/RunProject", position = 234),
+    @ActionReference(path = "Loaders/text/x-java/Actions", position = 1101),
+    @ActionReference(path = "Editors/text/x-java/Popup", position = 1761)
+})
 @Messages("CTL_DebugFileAction=Debug File with Arguments")
 public final class DebugFileAction implements ActionListener {
     

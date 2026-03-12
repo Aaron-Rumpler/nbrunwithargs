@@ -28,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.loaders.DataObject;
 import org.openide.util.NbBundle.Messages;
@@ -39,7 +40,11 @@ import org.openide.util.NbBundle.Messages;
 @ActionRegistration(
         displayName = "#CTL_RunFileAction"
 )
-@ActionReference(path = "Loaders/text/x-java/Actions", position = 910)
+@ActionReferences({
+    @ActionReference(path = "Menu/BuildProject", position = 651),
+    @ActionReference(path = "Loaders/text/x-java/Actions", position = 1001),
+    @ActionReference(path = "Editors/text/x-java/Popup", position = 1721)
+})
 @Messages("CTL_RunFileAction=Run File with Arguments")
 public final class RunFileAction implements ActionListener {
     
