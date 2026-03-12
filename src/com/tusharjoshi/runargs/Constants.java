@@ -32,8 +32,8 @@ public final class Constants {
 
     public static final String COMMAND_RUN = "run"; // NOI18N
     public static final String COMMAND_DEBUG = "debug"; // NOI18N
-    public static final String COMMAND_RUN_NAME = "Run"; // NOI18N
-    public static final String COMMAND_DEBUG_NAME = "Debug"; // NOI18N
+    public static final String COMMAND_RUN_NAME = "Run Project"; // NOI18N
+    public static final String COMMAND_DEBUG_NAME = "Debug Project"; // NOI18N
     
     public static final String J2SEPROJECT = 
             "org.netbeans.modules.java.j2seproject.J2SEProject"; // NOI18N 

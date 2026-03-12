@@ -51,7 +51,7 @@ import org.openide.util.Utilities;
     @ActionReference(path = "Shortcuts", name = "D-S-R")
 })
 @NbBundle.Messages({
-    "CTL_RunProjectAction=Run with Arguments"})
+    "CTL_RunProjectAction=Run Project with Arguments"})
 public class RunProjectAction extends ProjectAction 
 implements ContextAwareAction {   
 
