@@ -47,6 +47,7 @@ import org.openide.util.Utilities;
 @ActionRegistration(displayName = "#CTL_RunProjectAction", lazy = false)
 @ActionReferences({
     @ActionReference(path = "Menu/BuildProject", position = 11),
+    @ActionReference(path = "Toolbars/Build", position = 301),
     // TODO: Use context and match naming scheme
     @ActionReference(path = "Projects/org-netbeans-modules-java-j2seproject/Actions", position = 801),
     @ActionReference(path = "Projects/org-netbeans-modules-maven/Actions", position = 901),
