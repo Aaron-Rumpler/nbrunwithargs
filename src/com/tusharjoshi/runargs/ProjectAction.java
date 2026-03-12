@@ -97,7 +97,7 @@ public abstract class ProjectAction extends AbstractAction {
                 case Constants.MAVENPROJECT:
                 case Constants.GRADLEPLUGINPROJECT:
                 case Constants.GRADLEPROJECT:
-                    projectName = CommandHandler.getProjectName(project);
+                    projectName = " " + CommandHandler.getProjectName(project);
                     enableMenu = true;
                     break;
                 default:
@@ -105,7 +105,7 @@ public abstract class ProjectAction extends AbstractAction {
             }
         }
             
-        putValue(NAME, Bundle.MSG_INPUT_TITLE(projectName, 
+        putValue(NAME, Bundle.MSG_INPUT_TITLE(" Project" + projectName,
                 commandName));
         setEnabled(enableMenu);
     }    

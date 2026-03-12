@@ -107,7 +107,7 @@ public abstract class CommandHandler {
 
         NotifyDescriptor.InputLine inputLine
                 = new NotifyDescriptor.InputLine(Bundle.MSG_INPUT_TEXT(),
-                        Bundle.MSG_INPUT_TITLE(getProjectName(project), getCommandName(command)));
+                        Bundle.MSG_INPUT_TITLE(" Project " + getProjectName(project), getCommandName(command)));
         inputLine.setInputText(inputText);
         Object resultOption = DialogDisplayer.getDefault().notify(
                 inputLine);
@@ -152,6 +152,9 @@ public abstract class CommandHandler {
         String resourceName;
         resourceName = getFullClassName(dataObject.getPrimaryFile());
 
+        String fileName;
+        fileName = dataObject.getPrimaryFile().getNameExt();
+
         if (SourceUtils.getMainClasses(dataObject.getPrimaryFile()).isEmpty()) {
             NotifyDescriptor nd = new NotifyDescriptor.Message(Bundle.LBL_No_Main_Classs_Found(resourceName), NotifyDescriptor.INFORMATION_MESSAGE);
             DialogDisplayer.getDefault().notify(nd);
@@ -165,7 +168,7 @@ public abstract class CommandHandler {
 
         NotifyDescriptor.InputLine inputLine
                 = new NotifyDescriptor.InputLine(Bundle.MSG_INPUT_TEXT(),
-                        Bundle.MSG_INPUT_TITLE(" " + resourceName, getCommandName(command)));
+                        Bundle.MSG_INPUT_TITLE(" File (" + fileName + ")", getCommandName(command)));
         inputLine.setInputText(inputText);
         Object resultOption = DialogDisplayer.getDefault().notify(
                 inputLine);
@@ -224,6 +227,6 @@ public abstract class CommandHandler {
 
     public static String getProjectName(Project project) {
         ProjectInformation projectInfo = ProjectUtils.getInformation(project);
-        return " (" + projectInfo.getDisplayName() + ")";
+        return "(" + projectInfo.getDisplayName() + ")";
     }
 }
