@@ -26,12 +26,14 @@ package com.tusharjoshi.runargs;
 
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
+import javax.swing.Icon;
 import org.netbeans.api.project.Project;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
+import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
@@ -67,10 +69,19 @@ implements ContextAwareAction {
     
     public DebugProjectAction(final Lookup lkp, String commandName, String accKey) {
         super(lkp,commandName, accKey);
+        Icon badge = ImageUtilities.loadImageIcon("org/netbeans/modules/profiler/impl/icons/edit.png", false);
+        
+        Icon baseSmall = ImageUtilities.loadImageIcon("org/netbeans/modules/debugger/resources/debugProject.png", false);
+        Icon mergedSmall = ImageUtilities.mergeIcons(baseSmall, badge, 8, 8);
+        putValue(Action.SMALL_ICON, mergedSmall);
+        
+        Icon baseLarge = ImageUtilities.loadImageIcon("org/netbeans/modules/debugger/resources/debugProject24.png", false);
+        Icon mergedLarge = ImageUtilities.mergeIcons(baseLarge, badge, 8, 8);
+        putValue(Action.LARGE_ICON_KEY, mergedLarge);
     }
     
     public DebugProjectAction() {
-        super(Utilities.actionsGlobalContext(), Constants.COMMAND_DEBUG_NAME, "D-A-F5");
+        this(Utilities.actionsGlobalContext(), Constants.COMMAND_DEBUG_NAME, "D-A-F5");
     }
 
     @Override

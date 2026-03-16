@@ -26,12 +26,14 @@ package com.tusharjoshi.runargs;
 
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
+import javax.swing.Icon;
 import org.netbeans.api.project.Project;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.ContextAwareAction;
+import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.Utilities;
@@ -66,11 +68,15 @@ implements ContextAwareAction {
     }
     
     public RunProjectAction() {
-        super(Utilities.actionsGlobalContext(), Constants.COMMAND_RUN_NAME, "D-A-F6");
+        this(Utilities.actionsGlobalContext(), Constants.COMMAND_RUN_NAME, "D-A-F6");
     }
     
     public RunProjectAction(final Lookup lkp, String commandName, String accKey) {
         super(lkp,commandName, accKey);
+        Icon base = ImageUtilities.loadImageIcon("org/netbeans/modules/project/ui/resources/runProject24.png", false);
+        Icon badge = ImageUtilities.loadImageIcon("org/netbeans/modules/profiler/impl/icons/edit.png", false);
+        Icon merged = ImageUtilities.mergeIcons(base, badge, 8, 8);
+        putValue(Action.SMALL_ICON, merged);
     }
 
     @Override
