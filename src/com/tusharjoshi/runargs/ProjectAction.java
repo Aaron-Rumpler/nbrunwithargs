@@ -24,7 +24,10 @@
  */
 package com.tusharjoshi.runargs;
 
+import java.awt.Component;
 import javax.swing.AbstractAction;
+import javax.swing.Icon;
+import javax.swing.JButton;
 import org.netbeans.api.project.Project;
 import org.openide.awt.DynamicMenuContent;
 import org.openide.util.Lookup;
@@ -32,12 +35,13 @@ import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 import org.openide.util.Utilities;
 import org.openide.util.WeakListeners;
+import org.openide.util.actions.Presenter;
 
 /**
  *
  * @author Tushar Joshi
  */
-public abstract class ProjectAction extends AbstractAction {   
+public abstract class ProjectAction extends AbstractAction implements Presenter.Toolbar {   
 
     private Project project;
     
@@ -109,4 +113,12 @@ public abstract class ProjectAction extends AbstractAction {
                 commandName));
         setEnabled(enableMenu);
     }    
+    
+    @Override
+    public Component getToolbarPresenter() {
+        JButton button = new JButton(this);
+        button.setIcon((Icon) getValue(LARGE_ICON_KEY));
+        button.setHideActionText(true);
+        return button;
+    }
 }
