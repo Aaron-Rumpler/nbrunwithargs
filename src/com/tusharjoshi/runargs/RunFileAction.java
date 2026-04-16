@@ -25,12 +25,21 @@
 package com.tusharjoshi.runargs;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import org.netbeans.api.java.source.SourceUtils;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
+import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
+import org.openide.util.ContextAwareAction;
+import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
+import org.openide.util.Utilities;
+import org.openide.util.WeakListeners;
 import org.openide.util.NbBundle.Messages;
 
 @ActionID(
@@ -38,7 +47,8 @@ import org.openide.util.NbBundle.Messages;
         id = "com.tusharjoshi.runargs.RunFileAction"
 )
 @ActionRegistration(
-        displayName = "#CTL_RunFileAction"
+        displayName = "#CTL_RunFileAction",
+        lazy = false
 )
 @ActionReferences({
     @ActionReference(path = "Menu/BuildProject", position = 651),
@@ -47,18 +57,48 @@ import org.openide.util.NbBundle.Messages;
     @ActionReference(path = "Shortcuts", name = "A-S-F6")
 })
 @Messages("CTL_RunFileAction=Run File with Arguments...")
-public final class RunFileAction implements ActionListener {
-    
-    private final DataObject dataObject;
+public final class RunFileAction extends AbstractAction implements ContextAwareAction {
 
-    public RunFileAction(DataObject dataObject) {
-        this.dataObject = dataObject;        
+    private final Lookup lkp;
+    private final LookupListener listener;
+    private final Lookup.Result<DataObject> result;
+
+    public RunFileAction() {
+        this(Utilities.actionsGlobalContext());
+    }
+
+    private RunFileAction(Lookup lkp) {
+        this.lkp = lkp;
+        this.listener = (LookupEvent ev) -> updateEnabled();
+        this.result = lkp.lookupResult(DataObject.class);
+        this.result.addLookupListener(
+                WeakListeners.create(LookupListener.class, listener, this.result));
+        updateEnabled();
+    }
+
+    @Override
+    public Action createContextAwareInstance(Lookup lkp) {
+        return new RunFileAction(lkp);
+    }
+
+    private void updateEnabled() {
+        DataObject dataObject = lkp.lookup(DataObject.class);
+        if (dataObject == null) {
+            setEnabled(false);
+            return;
+        }
+        FileObject fo = dataObject.getPrimaryFile();
+        if (!"java".equalsIgnoreCase(fo.getExt())) {
+            setEnabled(false);
+            return;
+        }
+        setEnabled(!SourceUtils.getMainClasses(fo).isEmpty());
     }
 
     @Override
     public void actionPerformed(ActionEvent ev) {
-        CommandHandler commandHandler
-                = CommandHandler.createCommandHandler(dataObject);
+        DataObject dataObject = lkp.lookup(DataObject.class);
+        CommandHandler commandHandler = CommandHandler.createCommandHandler(dataObject);
         if (commandHandler != null) {
             commandHandler.runFile(dataObject);
         }
