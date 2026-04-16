@@ -69,6 +69,7 @@ public final class RunFileAction extends AbstractAction implements ContextAwareA
 
     private RunFileAction(Lookup lkp) {
         this.lkp = lkp;
+        putValue(NAME, Bundle.CTL_RunFileAction());
         this.listener = (LookupEvent ev) -> updateEnabled();
         this.result = lkp.lookupResult(DataObject.class);
         this.result.addLookupListener(

@@ -69,6 +69,7 @@ public final class DebugFileAction extends AbstractAction implements ContextAwar
 
     private DebugFileAction(Lookup lkp) {
         this.lkp = lkp;
+        putValue(NAME, Bundle.CTL_DebugFileAction());
         this.listener = (LookupEvent ev) -> updateEnabled();
         this.result = lkp.lookupResult(DataObject.class);
         this.result.addLookupListener(
