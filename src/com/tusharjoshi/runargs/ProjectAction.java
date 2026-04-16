@@ -30,6 +30,7 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import org.netbeans.api.project.Project;
 import org.openide.awt.DynamicMenuContent;
+import org.openide.loaders.DataObject;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
@@ -44,9 +45,10 @@ import org.openide.util.actions.Presenter;
 public abstract class ProjectAction extends AbstractAction implements Presenter.Toolbar {   
 
     private Project project;
-    
+
     private Lookup.Result<Project> result;
-    
+    private Lookup.Result<DataObject> dataObjectResult;
+
     private Lookup lkp;
     
     private final LookupListener listener;
@@ -58,11 +60,18 @@ public abstract class ProjectAction extends AbstractAction implements Presenter.
     public ProjectAction(final Lookup lkp, String commandName, String accKey) {
 
         this.listener = new ProjectLookupListener(commandName);
-        
-        this.lkp = lkp;        
+
+        this.lkp = lkp;
         this.result = lkp.lookupResult(Project.class);
         this.result.addLookupListener(
                 WeakListeners.create(LookupListener.class, listener, this.result));
+
+        // Also watch DataObject changes so the action responds when the editor
+        // restores its last file at startup (DataObject enters context but
+        // Project does not, because the project is derived via FileOwnerQuery).
+        this.dataObjectResult = lkp.lookupResult(DataObject.class);
+        this.dataObjectResult.addLookupListener(
+                WeakListeners.create(LookupListener.class, listener, this.dataObjectResult));
         
         putValue(DynamicMenuContent.HIDE_WHEN_DISABLED, true);        
         putValue(ACCELERATOR_KEY, Utilities.stringToKey(accKey));

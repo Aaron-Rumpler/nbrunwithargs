@@ -203,10 +203,15 @@ public abstract class CommandHandler {
         printLookupObjects(lkp);
         DataObject dataObject = lkp.lookup(DataObject.class);
         if (null != dataObject) {
-            return findProject(dataObject);
+            Project project = findProject(dataObject);
+            if (null != project) {
+                return project;
+            }
         }
 
-        return null;
+        // Fall back to a Project placed directly in the lookup (e.g. when a
+        // project node is selected but its lookup does not expose a DataFolder).
+        return lkp.lookup(Project.class);
     }
 
     protected static void printLookupObjects(Lookup lkp) {
