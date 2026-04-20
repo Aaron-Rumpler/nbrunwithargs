@@ -46,31 +46,47 @@ final class Icons {
     static final Icon DEBUG_LARGE;
 
     static {
-        ImageIcon badgeSmall = ImageUtilities.loadImageIcon(
-                "org/netbeans/modules/profiler/impl/icons/edit.svg", false);
-
-        BufferedImage badgeScaled = new BufferedImage(20, 20, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = badgeScaled.createGraphics();
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.drawImage(badgeSmall.getImage(), 0, 0, badgeScaled.getWidth(), badgeScaled.getHeight(), null);
-        g.dispose();
-        ImageIcon badgeLarge = new ImageIcon(badgeScaled);
-
         ImageIcon runBaseSmall = ImageUtilities.loadImageIcon(
                 "org/netbeans/modules/project/ui/resources/runProject.png", false);
         ImageIcon runBaseLarge = ImageUtilities.loadImageIcon(
                 "org/netbeans/modules/project/ui/resources/runProject24.png", false);
-        RUN_SMALL = ImageUtilities.mergeIcons(runBaseSmall, badgeSmall, 4, 4);
-        RUN_LARGE = ImageUtilities.mergeIcons(runBaseLarge, badgeLarge, 4, 4);
-
         ImageIcon debugBaseSmall = ImageUtilities.loadImageIcon(
                 "org/netbeans/modules/debugger/resources/debugProject.png", false);
         ImageIcon debugBaseLarge = ImageUtilities.loadImageIcon(
                 "org/netbeans/modules/debugger/resources/debugProject24.png", false);
-        DEBUG_SMALL = ImageUtilities.mergeIcons(debugBaseSmall, badgeSmall, 4, 4);
-        DEBUG_LARGE = ImageUtilities.mergeIcons(debugBaseLarge, badgeLarge, 4, 4);
+
+        // ImageUtilities.loadImageIcon(..., false) returns null when the
+        // resource can't be resolved -- e.g. when the profiler module that
+        // owns edit.svg isn't enabled, or simply hasn't been wired into this
+        // module's classloader yet at the moment <clinit> runs. Without this
+        // guard, badgeSmall.getImage() throws NPE in the static initialiser,
+        // which marks Icons erroneous and cascades into NoClassDefFoundError
+        // for every action class that references it -- and through the
+        // Toolbars/Build FolderInstance, a misleading cyclic-reference
+        // IOException. Fall back to the un-badged base icons in that case;
+        // the "with Arguments..." actions just render without the edit badge.
+        ImageIcon badgeSmall = ImageUtilities.loadImageIcon(
+                "org/netbeans/modules/profiler/impl/icons/edit.svg", false);
+        if (badgeSmall == null) {
+            RUN_SMALL = runBaseSmall;
+            RUN_LARGE = runBaseLarge;
+            DEBUG_SMALL = debugBaseSmall;
+            DEBUG_LARGE = debugBaseLarge;
+        } else {
+            BufferedImage badgeScaled = new BufferedImage(20, 20, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = badgeScaled.createGraphics();
+            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g.drawImage(badgeSmall.getImage(), 0, 0, badgeScaled.getWidth(), badgeScaled.getHeight(), null);
+            g.dispose();
+            ImageIcon badgeLarge = new ImageIcon(badgeScaled);
+
+            RUN_SMALL = ImageUtilities.mergeIcons(runBaseSmall, badgeSmall, 4, 4);
+            RUN_LARGE = ImageUtilities.mergeIcons(runBaseLarge, badgeLarge, 4, 4);
+            DEBUG_SMALL = ImageUtilities.mergeIcons(debugBaseSmall, badgeSmall, 4, 4);
+            DEBUG_LARGE = ImageUtilities.mergeIcons(debugBaseLarge, badgeLarge, 4, 4);
+        }
     }
 
     private Icons() {}
