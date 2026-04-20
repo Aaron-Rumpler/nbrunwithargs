@@ -37,6 +37,11 @@ import org.openide.util.ImageUtilities;
  * Arguments..." actions from the vanilla run/debug ones. Centralised here so
  * every action in this module (and any consumer resolving our actions through
  * the system filesystem) shares the same pre-computed instances.
+ *
+ * External icon dependencies:
+ * - org/netbeans/modules/profiler/impl/icons/edit.svg -> org.netbeans.modules.profiler
+ * - org/netbeans/modules/project/ui/resources/runProject*.png -> org.netbeans.modules.projectui
+ * - org/netbeans/modules/debugger/resources/debugProject*.png -> org.netbeans.spi.debugger.ui
  */
 final class Icons {
 
