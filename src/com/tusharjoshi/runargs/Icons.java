@@ -48,29 +48,37 @@ final class Icons {
     static {
         ImageIcon badgeSmall = ImageUtilities.loadImageIcon(
                 "org/netbeans/modules/profiler/impl/icons/edit.svg", false);
-
-        BufferedImage badgeScaled = new BufferedImage(20, 20, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = badgeScaled.createGraphics();
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.drawImage(badgeSmall.getImage(), 0, 0, badgeScaled.getWidth(), badgeScaled.getHeight(), null);
-        g.dispose();
-        ImageIcon badgeLarge = new ImageIcon(badgeScaled);
+        ImageIcon badgeLarge = null;
+        if (badgeSmall != null) {
+            BufferedImage badgeScaled = new BufferedImage(20, 20, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = badgeScaled.createGraphics();
+            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g.drawImage(badgeSmall.getImage(), 0, 0, badgeScaled.getWidth(), badgeScaled.getHeight(), null);
+            g.dispose();
+            badgeLarge = new ImageIcon(badgeScaled);
+        }
 
         ImageIcon runBaseSmall = ImageUtilities.loadImageIcon(
                 "org/netbeans/modules/project/ui/resources/runProject.png", false);
         ImageIcon runBaseLarge = ImageUtilities.loadImageIcon(
                 "org/netbeans/modules/project/ui/resources/runProject24.png", false);
-        RUN_SMALL = ImageUtilities.mergeIcons(runBaseSmall, badgeSmall, 4, 4);
-        RUN_LARGE = ImageUtilities.mergeIcons(runBaseLarge, badgeLarge, 4, 4);
+        RUN_SMALL = badge(runBaseSmall, badgeSmall);
+        RUN_LARGE = badge(runBaseLarge, badgeLarge);
 
         ImageIcon debugBaseSmall = ImageUtilities.loadImageIcon(
                 "org/netbeans/modules/debugger/resources/debugProject.png", false);
         ImageIcon debugBaseLarge = ImageUtilities.loadImageIcon(
                 "org/netbeans/modules/debugger/resources/debugProject24.png", false);
-        DEBUG_SMALL = ImageUtilities.mergeIcons(debugBaseSmall, badgeSmall, 4, 4);
-        DEBUG_LARGE = ImageUtilities.mergeIcons(debugBaseLarge, badgeLarge, 4, 4);
+        DEBUG_SMALL = badge(debugBaseSmall, badgeSmall);
+        DEBUG_LARGE = badge(debugBaseLarge, badgeLarge);
+    }
+
+    private static Icon badge(ImageIcon base, ImageIcon badge) {
+        if (base == null) return null;
+        if (badge == null) return base;
+        return ImageUtilities.mergeIcons(base, badge, 4, 4);
     }
 
     private Icons() {}
