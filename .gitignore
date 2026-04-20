@@ -4,6 +4,15 @@
 *.jar
 *.war
 *.ear
+*.nbm
+
+# Maven #
+target/
+
+# IDE #
+.idea/
+*.iml
+nbactions.xml
+nb-configuration.xml
 
 private/
-/build/
